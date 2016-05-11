@@ -121,10 +121,15 @@ export default Mixin.create({
   },
 
   _triggerDidAccessViewport(hasEnteredViewport = false) {
+    const element = get(this, 'element');
     const viewportEntered = get(this, 'viewportEntered');
     const didEnter = !viewportEntered && hasEnteredViewport;
     const didLeave = viewportEntered && !hasEnteredViewport;
     let triggeredEventName = '';
+
+    if (element.offsetParent === null) {
+      return;
+    }
 
     if (didEnter) {
       triggeredEventName = 'didEnterViewport';
